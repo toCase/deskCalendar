@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DeskCalendar</class>
+ <widget class="QMainWindow" name="DeskCalendar">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>265</width>
+    <height>681</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>265</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>265</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>DeskCalendar</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/ico/icons/icon.png</normaloff>:/ico/icons/icon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0" rowspan="2" colspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QTimeEdit" name="clock">
+            <property name="maximumSize">
+             <size>
+              <width>1677215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="displayFormat">
+             <string>HH:mm:ss</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QToolButton" name="toolButton_prev">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::LeftArrow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_next">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::RightArrow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>5</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="dateEdit_day">
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>38</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="date">
+           <date>
+            <year>2000</year>
+            <month>1</month>
+            <day>10</day>
+           </date>
+          </property>
+          <property name="displayFormat">
+           <string>d</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QDateEdit" name="dateEdit_month">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="displayFormat">
+             <string>MMM</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="dateEdit_year">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="displayFormat">
+             <string>yyyy</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="calendar">
+        <property name="minimumSize">
+         <size>
+          <width>247</width>
+          <height>180</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>247</width>
+          <height>180</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <property name="rowCount">
+         <number>0</number>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>35</number>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>35</number>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>25</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Пн</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Вт</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Ср</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Чт</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Пт</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Сб</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Вс</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_events">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Events</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="tableWidget_notes">
+        <property name="maximumSize">
+         <size>
+          <width>247</width>
+          <height>1677215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>26</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>id</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>text</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QPushButton" name="pushButton_add">
+          <property name="text">
+           <string>add</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>:/ico/icons/add.png</normaloff>:/ico/icons/add.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_close">
+          <property name="text">
+           <string>close</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>:/ico/icons/close.png</normaloff>:/ico/icons/close.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_notes">
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>1677215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Event</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Date:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="dateEdit_event"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QTimeEdit" name="timeEdit_s">
+               <property name="displayFormat">
+                <string>H:mm</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>-</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTimeEdit" name="timeEdit_e">
+               <property name="displayFormat">
+                <string>H:mm</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_title"/>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QPushButton" name="pushButton_save">
+               <property name="text">
+                <string>save</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/ico/icons/save.png</normaloff>:/ico/icons/save.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_detail">
+               <property name="text">
+                <string>&gt;&gt;</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/ico/icons/close.png</normaloff>:/ico/icons/close.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_close_event">
+               <property name="text">
+                <string>close</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>:/ico/icons/add.png</normaloff>:/ico/icons/add.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_2">
+      <property name="minimumSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../debug/icons/events.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
