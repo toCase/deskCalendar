@@ -1,10 +1,10 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2012-07-02T22:51:32
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql webkit
 
 TARGET = deskCalendar
 TEMPLATE = app

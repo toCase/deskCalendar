@@ -52,6 +52,9 @@ private slots:
     //календарь
     void makeCalendar(QDate ddate);
     void updateCalendar();
+    /////////////
+    //diagramm
+    void toDia();
 };
 
 #endif // DESKCALENDAR_H

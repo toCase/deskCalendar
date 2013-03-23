@@ -8,6 +8,7 @@ class viewDia:public QMainWindow{
     Q_OBJECT
 public:
     viewDia(QString _text, QWidget *parent = 0);
+    Ui::viewer ui;
     QString text;
 
 public slots:

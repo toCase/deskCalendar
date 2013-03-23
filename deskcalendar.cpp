@@ -2,6 +2,7 @@
 #include "ui_deskcalendar.h"
 #include "event.h"
 #include <QPainter>
+#include "viewDia.h"
 
 
 DeskCalendar::DeskCalendar(int h, int w, QWidget *parent) :QMainWindow(parent),
@@ -38,14 +39,12 @@ DeskCalendar::DeskCalendar(int h, int w, QWidget *parent) :QMainWindow(parent),
     connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(saveNotes()));
     connect(ui->pushButton_close, SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->tableWidget_notes, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editNotes()));
-    //connect(ui->pushButton_check, SIGNAL(clicked()), this, SLOT(checkNotes()));
 
     connect(ui->calendar, SIGNAL(clicked(QModelIndex)), this, SLOT(setCurrentDate()));
     connect(ui->toolButton_prev, SIGNAL(clicked()), this, SLOT(prevMonth()));
     connect(ui->toolButton_next, SIGNAL(clicked()), this, SLOT(nextMonth()));
+    connect(ui->toolButton_dia, SIGNAL(clicked()), this, SLOT(toDia()));
     updateCalendar();
-
-
 }
 
 DeskCalendar::~DeskCalendar()
@@ -153,27 +152,10 @@ void DeskCalendar::addNotes(){
     ui->dateEdit_event->setDate(cDate);
     ui->timeEdit_s->setTime(ui->clock->time());
     ui->timeEdit_e->setTime(ui->clock->time().addSecs(1800));
-    /*
-    QList<int> list;
-    Events *ev = new Events(list, 0, cDate, this);
-    ev->exec();
-    makeCalendar(cDate);
-    */
+    ui->lineEdit_title->setFocus();
 }
 
 void DeskCalendar::editNotes(){
-    /*
-    id = ui->tableWidget_notes->item(ui->tableWidget_notes->currentRow(), 0)->text().toInt();
-    QSqlQuery r(QString("select cale.id, cale.ctime, cale.cdate, cale.ctext,  cale.imp from cale "
-                        "where cale.id = \'%1\' ").arg(id));
-    r.next();
-    ui->timeEdit_notes->setTime(r.value(1).toTime());
-    ui->dateEdit_notes->setDate(r.value(2).toDate());
-    ui->textEdit_text->setPlainText(r.value(3).toString());
-    ui->checkBox_imp->setChecked(r.value(4).toBool());
-    ui->groupBox_notes->setVisible(true);
-    */
-    //***************
     QList<int> list;
     for (int a = 0; a < ui->tableWidget_notes->rowCount(); a++){
         list << ui->tableWidget_notes->item(a, 0)->text().toInt();
@@ -199,7 +181,7 @@ void DeskCalendar::saveNotes(){
         query.bindValue(4, "lightskyblue");
         query.exec();
     }
-    ui->pushButton_detail->setEnabled(true);
+    //ui->pushButton_detail->setEnabled(true);
     readNotes();
 }
 
@@ -228,58 +210,17 @@ void DeskCalendar::readNotes(){
         brush.setColor("white");
         notes->setBackgroundColor(color);
         notes->setForeground(brush);
-        //notes->setBackground(brush);
 
         ui->tableWidget_notes->setItem(row, 1, notes);
         row++;
     }
-
-    if (ui->tableWidget_notes->rowCount() == 0){
-        //ui->pushButton_check->setEnabled(false);
-    } else {
-        //ui->pushButton_check->setEnabled(true);
-    }
-
     ui->tableWidget_notes->resizeRowsToContents();
 }
 
 void DeskCalendar::checkNotes(){
-    /*
-    ui->tableWidget_notes->setFocus();
-    id = ui->tableWidget_notes->item(ui->tableWidget_notes->currentRow(), 0)->text().toInt();
-    if (id > 0){
-        QSqlQuery up(QString("update cale set status = \'%1\' where cale.id = \'%2\' ")
-                     .arg("2")
-                     .arg(id));
-        up.exec();
-    }
-    readNotes();
-    makeCalendar(cDate);
-    */
 }
 
 void DeskCalendar::updateNotes(){
-    /*
-    QDate firstDate = QDate::fromString(QString("%1-01").arg(cDate.toString("yyyy-MM")), "yyyy-MM-dd");
-    QDate lastDate = QDate::fromString(QString("%1-%2")
-                                       .arg(cDate.toString("yyyy-MM"))
-                                       .arg(cDate.daysInMonth()), "yyyy-MM-dd");
-    for (int d = firstDate.toJulianDay(); d < lastDate.toJulianDay(); d++){
-        QDate resDate = QDate::fromJulianDay(d);
-        QSqlQuery q(QString("select cale.id, cale.cdate, cale.ctime, cale.status from cale where cale.cdate = \'%1\' and status = 1 ")
-                    .arg(resDate.toString("yyyy-MM-dd")));
-        while (q.next()){
-            if (q.value(1).toDate() < QDate::currentDate()){
-                QSqlQuery up(QString("update cale set status = 3 where cale.id = \'%1\' ").arg(q.value(0).toInt()));
-                up.exec();
-            } else if ((q.value(1).toDate() == QDate::currentDate() and q.value(2).toTime() <= QTime::currentTime())){
-                QSqlQuery up(QString("update cale set status = 3 where cale.id = \'%1\' ").arg(q.value(0).toInt()));
-                up.exec();
-            }
-        }
-    }
-    */
-
 }
 
 //календарь
@@ -432,7 +373,6 @@ void DeskCalendar::makeCalendar(QDate ddate){
             }
         }
     }
-    //ui->calendar->resizeColumnsToContents();
     ui->label_events->setText(QString("Events on %1").arg(ddate.toString("d MMM yyyy")));
 }
 
@@ -440,4 +380,149 @@ void DeskCalendar::updateCalendar(){
     updateNotes();
     readNotes();
     makeCalendar(cDate);
+}
+
+void DeskCalendar::toDia(){
+    QString t;
+    t.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"> "
+             "<html><head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head>"
+             "<body>"
+             "<canvas id=\"canva\" width=\"630\" height=\"455\" style=\"border: 2px solid\"></canvas>"
+             "<script>"
+             "function drawDia(){ "
+             "var canvas = document.getElementById(\'canva\'); "
+             "var coord = canvas.getContext(\'2d\'); "
+             "coord.lineJoin = \'round\'; "
+             "coord.strokeStyle = \'black\'; "
+             "coord.beginPath(); "
+             "coord.moveTo(15, 15); "
+             "coord.lineTo(15, 420); "
+             "coord.lineTo(615, 420); "
+             "coord.moveTo(40, 417); "
+             "coord.lineTo(40, 423); "
+             "coord.moveTo(65, 417); "
+             "coord.lineTo(65, 423); "
+             "coord.moveTo(90, 417); "
+             "coord.lineTo(90, 423); "
+             "coord.moveTo(115, 417); "
+             "coord.lineTo(115, 423); "
+             "coord.moveTo(140, 417); "
+             "coord.lineTo(140, 423); "
+             "coord.moveTo(165, 417); "
+             "coord.lineTo(165, 423); "
+             "coord.moveTo(190, 417); "
+             "coord.lineTo(190, 423); "
+             "coord.moveTo(215, 417); "
+             "coord.lineTo(215, 423); "
+             "coord.moveTo(240, 417); "
+             "coord.lineTo(240, 423); "
+             "coord.moveTo(265, 417); "
+             "coord.lineTo(265, 423); "
+             "coord.moveTo(290, 417); "
+             "coord.lineTo(290, 423); "
+             "coord.moveTo(315, 417); "
+             "coord.lineTo(315, 423); "
+             "coord.moveTo(340, 417); "
+             "coord.lineTo(340, 423); "
+             "coord.moveTo(365, 417); "
+             "coord.lineTo(365, 423); "
+             "coord.moveTo(390, 417); "
+             "coord.lineTo(390, 423); "
+             "coord.moveTo(415, 417); "
+             "coord.lineTo(415, 423); "
+             "coord.moveTo(440, 417); "
+             "coord.lineTo(440, 423); "
+             "coord.moveTo(465, 417); "
+             "coord.lineTo(465, 423); "
+             "coord.moveTo(490, 417); "
+             "coord.lineTo(490, 423); "
+             "coord.moveTo(515, 417); "
+             "coord.lineTo(515, 423); "
+             "coord.moveTo(540, 417); "
+             "coord.lineTo(540, 423); "
+             "coord.moveTo(565, 417); "
+             "coord.lineTo(565, 423); "
+             "coord.moveTo(590, 417); "
+             "coord.lineTo(590, 423); "
+             "coord.moveTo(615, 417); "
+             "coord.lineTo(615, 423); "
+             "coord.stroke(); "
+             "coord.save(); "
+             "coord.font = \"11px arial\"; "
+             "coord.fillStyle = \'black\'; "
+             "coord.fillText(\'1\', 38, 435, 5); "
+             "coord.fillText(\'2\', 63, 435, 5); "
+             "coord.fillText(\'3\', 88, 435, 5); "
+             "coord.fillText(\'4\', 113, 435, 5); "
+             "coord.fillText(\'5\', 138, 435, 5); "
+             "coord.fillText(\'6\', 163, 435, 5); "
+             "coord.fillText(\'7\', 188, 435, 5); "
+             "coord.fillText(\'8\', 213, 435, 5); "
+             "coord.fillText(\'9\', 238, 435, 5); "
+             "coord.fillText(\'10\', 260, 435, 10); "
+             "coord.fillText(\'11\', 285, 435, 10); "
+             "coord.fillText(\'12\', 310, 435, 10); "
+             "coord.fillText(\'13\', 335, 435, 10); "
+             "coord.fillText(\'14\', 360, 435, 10); "
+             "coord.fillText(\'15\', 385, 435, 10); "
+             "coord.fillText(\'16\', 410, 435, 10); "
+             "coord.fillText(\'17\', 435, 435, 10); "
+             "coord.fillText(\'18\', 460, 435, 10); "
+             "coord.fillText(\'19\', 485, 435, 10); "
+             "coord.fillText(\'20\', 510, 435, 10); "
+             "coord.fillText(\'21\', 535, 435, 10); "
+             "coord.fillText(\'22\', 560, 435, 10); "
+             "coord.fillText(\'23\', 585, 435, 10); "
+             "coord.fillText(\'24\', 610, 435, 10); "
+             "coord.save(); "
+             "coord.font = \"11px arial black\"; "
+             "coord.fillStyle = \'black\'; "
+             "coord.fillText(\'Events\', 15, 13, 300); "
+             "coord.fillText(\'Timeline\', 560, 450, 300); ");
+
+    QSqlQuery q(QString("select events.id, events.time_s, events.time_e, events.name, events.color from events "
+                        "where events.date_s = \'%1\' order by events.time_s ").arg(cDate.toString("yyyy-MM-dd")));
+
+    int y1 = 420;
+    int y2 = 0;
+
+    while (q.next()){
+        QString name(QString("id%1").arg(q.value(0).toString()));
+        double x1 = 0;
+        double x2 = 0;
+        QString hourA(QString("%1.0").arg(q.value(1).toTime().hour()));
+        QString minA(QString("%1.0").arg(q.value(1).toTime().minute()));
+        x1 = 15.0 + ((hourA.toDouble() + minA.toDouble()/59.0) * 25.0);
+        QString hourB(QString("%1.0").arg(q.value(2).toTime().hour()));
+        QString minB(QString("%1.0").arg(q.value(2).toTime().minute()));
+        x2 = 15.0 + ((hourB.toDouble() + minB.toDouble()/59.0) * 25.0);
+        y1 = y1 - 35;
+        y2 = y1 - 13;
+        t.append(QString("var %1 = canvas.getContext(\'2d\'); "
+                         "%1.lineWidth = 20; "
+                         "%1.lineJoin = \'round\'; "
+                         "%1.strokeStyle = \'%2\'; "
+                         "%1.beginPath(); "
+                         "%1.moveTo(%3, %5); "
+                         "%1.lineTo(%4, %5); "
+                         "%1.stroke(); "
+                         "%1.save(); "
+                         "%1.font = \"11px arial black\"; "
+                         "%1.fillStyle = \'black\'; "
+                         "%1.textAlign = \'left\'; "
+                         "%1.fillText(\'%7\', 18, %6, 300); ")
+                 .arg(name)
+                 .arg(q.value(4).toString())
+                 .arg(x1)
+                 .arg(x2)
+                 .arg(y1)
+                 .arg(y2)
+                 .arg(q.value(3).toString()));
+    }
+
+    t.append(" } "
+             "window.addEventListener(\"load\", drawDia, true); "
+             "</script></body></html>");
+    viewDia *vd = new viewDia(t, this);
+    vd->show();
 }

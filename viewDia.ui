@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>viewer</class>
+ <widget class="QMainWindow" name="viewer">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>698</width>
-    <height>489</height>
+    <height>521</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>title</string>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::VerticalTabs</set>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -20,13 +23,13 @@
       <property name="minimumSize">
        <size>
         <width>680</width>
-        <height>450</height>
+        <height>480</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>680</width>
-        <height>450</height>
+        <height>480</height>
        </size>
       </property>
       <property name="url">

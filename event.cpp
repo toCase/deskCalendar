@@ -6,7 +6,6 @@ Events::Events(QList<int> _l, int _i, QDate _d, QWidget *parent):QDialog(parent)
     item = _i;
     dat = _d;
 
-    ui.groupBox_period->hide();
     createEvent();
 
     connect(ui.pushButton_close, SIGNAL(clicked()), this, SLOT(close()));

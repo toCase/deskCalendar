@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>265</width>
-    <height>681</height>
+    <height>684</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -330,16 +330,40 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_events">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Events</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_events">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Events</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_dia">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QTableWidget" name="tableWidget_notes">
@@ -417,19 +441,6 @@
             <normaloff>:/ico/icons/add.png</normaloff>:/ico/icons/add.png</iconset>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_close">
@@ -536,17 +547,6 @@
                <property name="icon">
                 <iconset>
                  <normaloff>:/ico/icons/save.png</normaloff>:/ico/icons/save.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_detail">
-               <property name="text">
-                <string>&gt;&gt;</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/ico/icons/close.png</normaloff>:/ico/icons/close.png</iconset>
                </property>
               </widget>
              </item>
