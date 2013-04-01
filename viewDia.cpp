@@ -5,6 +5,7 @@ viewDia::viewDia(QString _text, QWidget *parent):QMainWindow(parent){
     text = _text;
     load();
     connect(ui.actionPrint, SIGNAL(triggered()), this, SLOT(print()));
+    connect(ui.actionClose, SIGNAL(triggered()), this, SLOT(close()));
 }
 
 void viewDia::load(){
@@ -12,5 +13,9 @@ void viewDia::load(){
 }
 
 void viewDia::print(){
-
+    QPrinter *printer = new QPrinter(QPrinterInfo::defaultPrinter());
+    QPrintDialog pDialog(printer, this);
+    if (pDialog.exec() == QDialog::Accepted){
+        ui.webView->print(printer);
+    }
 }

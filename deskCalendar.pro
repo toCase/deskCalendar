@@ -24,3 +24,4 @@ FORMS    += deskcalendar.ui \
     viewDia.ui
 
 OTHER_FILES += iconca.rc
+

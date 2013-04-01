@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>556</width>
     <height>394</height>
    </rect>
   </property>
@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="reso.qrc">
+    <normaloff>:/icons/icons/Bookmarks.png</normaloff>:/icons/icons/Bookmarks.png</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout_5">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -27,7 +31,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Заголовок:</string>
+          <string>title</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -44,7 +48,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Дата и время:</string>
+          <string>date and time</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -102,7 +106,7 @@
        <item>
         <widget class="QCheckBox" name="checkBox_full_day">
          <property name="text">
-          <string>Весь день</string>
+          <string>full day</string>
          </property>
         </widget>
        </item>
@@ -133,7 +137,7 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Цвет:</string>
+          <string>color</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -141,62 +145,25 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_color">
-         <item>
-          <property name="text">
-           <string>lightskyblue</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>skyblue</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>aqua</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>greenyellow</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>yellowgreen</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>olive</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>peru</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>sandybrown</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>violet</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>grey</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>slategrey</string>
-          </property>
-         </item>
+        <widget class="QToolButton" name="toolButton_color">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
         </widget>
        </item>
        <item>
@@ -217,7 +184,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_note">
        <property name="title">
-        <string>Описание:</string>
+        <string>note</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
@@ -245,7 +212,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_del">
          <property name="text">
-          <string>Удалить</string>
+          <string>delete</string>
          </property>
          <property name="icon">
           <iconset>
@@ -340,11 +307,11 @@
        <item>
         <widget class="QPushButton" name="pushButton_save">
          <property name="text">
-          <string>Сохранить</string>
+          <string>save</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/ico/icons/Floppy.png</normaloff>:/ico/icons/Floppy.png</iconset>
+          <iconset resource="reso.qrc">
+           <normaloff>:/icons/icons/done.png</normaloff>:/icons/icons/done.png</iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -360,11 +327,11 @@
           </size>
          </property>
          <property name="text">
-          <string>Закрыть</string>
+          <string>close</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>:/ico/icons/Closed.png</normaloff>:/ico/icons/Closed.png</iconset>
+          <iconset resource="reso.qrc">
+           <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -388,6 +355,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="reso.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -141,15 +141,15 @@
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
+          <property name="displayFormat">
+           <string>d</string>
+          </property>
           <property name="date">
            <date>
             <year>2000</year>
             <month>1</month>
             <day>10</day>
            </date>
-          </property>
-          <property name="displayFormat">
-           <string>d</string>
           </property>
          </widget>
         </item>
@@ -245,7 +245,7 @@
         </attribute>
         <column>
          <property name="text">
-          <string>Пн</string>
+          <string>Mon</string>
          </property>
          <property name="font">
           <font>
@@ -257,7 +257,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Вт</string>
+          <string>Tue</string>
          </property>
          <property name="font">
           <font>
@@ -269,7 +269,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Ср</string>
+          <string>Wed</string>
          </property>
          <property name="font">
           <font>
@@ -281,7 +281,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Чт</string>
+          <string>Thu</string>
          </property>
          <property name="font">
           <font>
@@ -293,7 +293,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Пт</string>
+          <string>Fri</string>
          </property>
          <property name="font">
           <font>
@@ -305,7 +305,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Сб</string>
+          <string>Sat</string>
          </property>
          <property name="font">
           <font>
@@ -317,7 +317,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Вс</string>
+          <string>Sun</string>
          </property>
          <property name="font">
           <font>
@@ -359,7 +359,11 @@
         <item>
          <widget class="QToolButton" name="toolButton_dia">
           <property name="text">
-           <string>...</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="reso.qrc">
+            <normaloff>:/icons/icons/Chart.png</normaloff>:/icons/icons/Chart.png</iconset>
           </property>
          </widget>
         </item>
@@ -437,8 +441,8 @@
            <string>add</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>:/ico/icons/add.png</normaloff>:/ico/icons/add.png</iconset>
+           <iconset resource="reso.qrc">
+            <normaloff>:/icons/icons/add.png</normaloff>:/icons/icons/add.png</iconset>
           </property>
          </widget>
         </item>
@@ -599,6 +603,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="reso.qrc"/>
+ </resources>
  <connections/>
 </ui>

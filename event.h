@@ -13,6 +13,7 @@ public:
     QList<int> list;
     int item;
     QDate dat;
+    QColor col;
 
 private slots:
     void createEvent();
@@ -27,6 +28,9 @@ private slots:
     ///////
     void setPeriodicly();
     void setFullDay(bool x);
+    ////test
+    void changeColor();
+
 
 };
 

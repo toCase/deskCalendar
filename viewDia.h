@@ -2,6 +2,9 @@
 #define VIEWDIA_H
 
 #include <QtWebKit/QtWebKit>
+#include <QPrinter>
+#include <QPrinterInfo>
+#include <QPrintDialog>
 #include "ui_viewDia.h"
 
 class viewDia:public QMainWindow{

@@ -141,6 +141,7 @@ void DeskCalendar::connectDB(){
     db =  QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("dCalendar.db3");
     db.open();
+    qDebug() << db.isOpen();
 }
 ///////////////////
 // заметки
@@ -176,8 +177,8 @@ void DeskCalendar::saveNotes(){
                         "values (:name, :date_s, :time_s, :time_e, :color)");
         query.bindValue(0, ui->lineEdit_title->text());
         query.bindValue(1, ui->dateEdit_event->date().toString("yyyy-MM-dd"));
-        query.bindValue(2, ui->timeEdit_s->time().toString("hh:mm"));
-        query.bindValue(3, ui->timeEdit_e->time().toString("hh:mm"));
+        query.bindValue(2, ui->timeEdit_s->time().toString("hh:mm:ss"));
+        query.bindValue(3, ui->timeEdit_e->time().toString("hh:mm:ss"));
         query.bindValue(4, "lightskyblue");
         query.exec();
     }
@@ -383,120 +384,70 @@ void DeskCalendar::updateCalendar(){
 }
 
 void DeskCalendar::toDia(){
+    QSqlQuery q(QString("select events.id, events.time_s, events.time_e, events.name, events.color from events "
+                        "where events.date_s = \'%1\' order by events.time_s ").arg(cDate.toString("yyyy-MM-dd")));
+    int line = 0; // кол-во полос
+    while (q.next()){
+        line++;
+    }
+    int height_canvas = 0; //
+    if (line > 11){
+        height_canvas = 455 + (35 * (line - 11));
+    } else {
+        height_canvas = 455;
+    }
     QString t;
     t.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"> "
              "<html><head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head>"
-             "<body>"
-             "<canvas id=\"canva\" width=\"630\" height=\"455\" style=\"border: 2px solid\"></canvas>"
-             "<script>"
+             "<body>");
+    t.append(QString("<h3 align=left>Events on %1</h3>").arg(cDate.toString("d MMM yyyy")));
+    t.append(QString("<canvas id=\"canva\" width=\"630\" height=\"%1\" style=\"border: 2px solid\"></canvas>").arg(height_canvas));
+    t.append("<script>"
              "function drawDia(){ "
              "var canvas = document.getElementById(\'canva\'); "
              "var coord = canvas.getContext(\'2d\'); "
              "coord.lineJoin = \'round\'; "
              "coord.strokeStyle = \'black\'; "
              "coord.beginPath(); "
-             "coord.moveTo(15, 15); "
-             "coord.lineTo(15, 420); "
-             "coord.lineTo(615, 420); "
-             "coord.moveTo(40, 417); "
-             "coord.lineTo(40, 423); "
-             "coord.moveTo(65, 417); "
-             "coord.lineTo(65, 423); "
-             "coord.moveTo(90, 417); "
-             "coord.lineTo(90, 423); "
-             "coord.moveTo(115, 417); "
-             "coord.lineTo(115, 423); "
-             "coord.moveTo(140, 417); "
-             "coord.lineTo(140, 423); "
-             "coord.moveTo(165, 417); "
-             "coord.lineTo(165, 423); "
-             "coord.moveTo(190, 417); "
-             "coord.lineTo(190, 423); "
-             "coord.moveTo(215, 417); "
-             "coord.lineTo(215, 423); "
-             "coord.moveTo(240, 417); "
-             "coord.lineTo(240, 423); "
-             "coord.moveTo(265, 417); "
-             "coord.lineTo(265, 423); "
-             "coord.moveTo(290, 417); "
-             "coord.lineTo(290, 423); "
-             "coord.moveTo(315, 417); "
-             "coord.lineTo(315, 423); "
-             "coord.moveTo(340, 417); "
-             "coord.lineTo(340, 423); "
-             "coord.moveTo(365, 417); "
-             "coord.lineTo(365, 423); "
-             "coord.moveTo(390, 417); "
-             "coord.lineTo(390, 423); "
-             "coord.moveTo(415, 417); "
-             "coord.lineTo(415, 423); "
-             "coord.moveTo(440, 417); "
-             "coord.lineTo(440, 423); "
-             "coord.moveTo(465, 417); "
-             "coord.lineTo(465, 423); "
-             "coord.moveTo(490, 417); "
-             "coord.lineTo(490, 423); "
-             "coord.moveTo(515, 417); "
-             "coord.lineTo(515, 423); "
-             "coord.moveTo(540, 417); "
-             "coord.lineTo(540, 423); "
-             "coord.moveTo(565, 417); "
-             "coord.lineTo(565, 423); "
-             "coord.moveTo(590, 417); "
-             "coord.lineTo(590, 423); "
-             "coord.moveTo(615, 417); "
-             "coord.lineTo(615, 423); "
-             "coord.stroke(); "
+             "coord.moveTo(15, 15); ");
+    t.append(QString("coord.lineTo(15, %1);  coord.lineTo(615, %1); ").arg(height_canvas - 35));
+    for (int x = 40; x < 616; x = x+25){
+        t.append(QString("coord.moveTo(%1, %2); coord.lineTo(%1, %3); ").arg(x).arg(height_canvas - 38).arg(height_canvas - 32));
+    }
+    t.append("coord.stroke(); "
              "coord.save(); "
              "coord.font = \"11px arial\"; "
-             "coord.fillStyle = \'black\'; "
-             "coord.fillText(\'1\', 38, 435, 5); "
-             "coord.fillText(\'2\', 63, 435, 5); "
-             "coord.fillText(\'3\', 88, 435, 5); "
-             "coord.fillText(\'4\', 113, 435, 5); "
-             "coord.fillText(\'5\', 138, 435, 5); "
-             "coord.fillText(\'6\', 163, 435, 5); "
-             "coord.fillText(\'7\', 188, 435, 5); "
-             "coord.fillText(\'8\', 213, 435, 5); "
-             "coord.fillText(\'9\', 238, 435, 5); "
-             "coord.fillText(\'10\', 260, 435, 10); "
-             "coord.fillText(\'11\', 285, 435, 10); "
-             "coord.fillText(\'12\', 310, 435, 10); "
-             "coord.fillText(\'13\', 335, 435, 10); "
-             "coord.fillText(\'14\', 360, 435, 10); "
-             "coord.fillText(\'15\', 385, 435, 10); "
-             "coord.fillText(\'16\', 410, 435, 10); "
-             "coord.fillText(\'17\', 435, 435, 10); "
-             "coord.fillText(\'18\', 460, 435, 10); "
-             "coord.fillText(\'19\', 485, 435, 10); "
-             "coord.fillText(\'20\', 510, 435, 10); "
-             "coord.fillText(\'21\', 535, 435, 10); "
-             "coord.fillText(\'22\', 560, 435, 10); "
-             "coord.fillText(\'23\', 585, 435, 10); "
-             "coord.fillText(\'24\', 610, 435, 10); "
-             "coord.save(); "
+             "coord.fillStyle = \'black\'; ");
+    int y = 1;
+    for (int x = 38; x < 240; x = x+25){
+       t.append(QString("coord.fillText(\'%1\', %2, %3, 5); ").arg(y).arg(x).arg(height_canvas - 20));
+       y++;
+    }
+    for (int x=260; x < 615; x = x+25){
+        t.append(QString("coord.fillText(\'%1\', %2, %3, 10); ").arg(y).arg(x).arg(height_canvas - 20));
+        y++;
+    }
+    t.append(QString("coord.save(); "
              "coord.font = \"11px arial black\"; "
              "coord.fillStyle = \'black\'; "
              "coord.fillText(\'Events\', 15, 13, 300); "
-             "coord.fillText(\'Timeline\', 560, 450, 300); ");
+             "coord.fillText(\'Timeline\', 560, %1, 300); ").arg(height_canvas - 5));
 
-    QSqlQuery q(QString("select events.id, events.time_s, events.time_e, events.name, events.color from events "
+    int y1 = height_canvas - 50;
+    int y2 = 0;
+    QSqlQuery q2(QString("select events.id, events.time_s, events.time_e, events.name, events.color from events "
                         "where events.date_s = \'%1\' order by events.time_s ").arg(cDate.toString("yyyy-MM-dd")));
 
-    int y1 = 420;
-    int y2 = 0;
-
-    while (q.next()){
-        QString name(QString("id%1").arg(q.value(0).toString()));
+    while (q2.next()){
+        QString name(QString("id%1").arg(q2.value(0).toString()));
         double x1 = 0;
         double x2 = 0;
-        QString hourA(QString("%1.0").arg(q.value(1).toTime().hour()));
-        QString minA(QString("%1.0").arg(q.value(1).toTime().minute()));
+        QString hourA(QString("%1.0").arg(q2.value(1).toTime().hour()));
+        QString minA(QString("%1.0").arg(q2.value(1).toTime().minute()));
         x1 = 15.0 + ((hourA.toDouble() + minA.toDouble()/59.0) * 25.0);
-        QString hourB(QString("%1.0").arg(q.value(2).toTime().hour()));
-        QString minB(QString("%1.0").arg(q.value(2).toTime().minute()));
-        x2 = 15.0 + ((hourB.toDouble() + minB.toDouble()/59.0) * 25.0);
-        y1 = y1 - 35;
+        QString hourB(QString("%1.0").arg(q2.value(2).toTime().hour()));
+        QString minB(QString("%1.0").arg(q2.value(2).toTime().minute()));
+        x2 = 15.0 + ((hourB.toDouble() + minB.toDouble()/59.0) * 25.0);        
         y2 = y1 - 13;
         t.append(QString("var %1 = canvas.getContext(\'2d\'); "
                          "%1.lineWidth = 20; "
@@ -512,12 +463,13 @@ void DeskCalendar::toDia(){
                          "%1.textAlign = \'left\'; "
                          "%1.fillText(\'%7\', 18, %6, 300); ")
                  .arg(name)
-                 .arg(q.value(4).toString())
+                 .arg(q2.value(4).toString())
                  .arg(x1)
                  .arg(x2)
                  .arg(y1)
                  .arg(y2)
-                 .arg(q.value(3).toString()));
+                 .arg(q2.value(3).toString()));
+        y1 = y1 - 35;
     }
 
     t.append(" } "

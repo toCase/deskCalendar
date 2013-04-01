@@ -1,10 +1,12 @@
 #include "event.h"
+#include <QColorDialog>
 
 Events::Events(QList<int> _l, int _i, QDate _d, QWidget *parent):QDialog(parent){
     ui.setupUi(this);
     list = _l;
     item = _i;
     dat = _d;
+    ui.checkBox_period->hide();
 
     createEvent();
 
@@ -19,6 +21,8 @@ Events::Events(QList<int> _l, int _i, QDate _d, QWidget *parent):QDialog(parent)
 
     connect(ui.checkBox_period, SIGNAL(clicked()), this, SLOT(setPeriodicly()));
     connect(ui.checkBox_full_day, SIGNAL(clicked(bool)), this, SLOT(setFullDay(bool)));
+
+    connect(ui.toolButton_color, SIGNAL(clicked()), this, SLOT(changeColor()));
 }
 
 void Events::createEvent(){
@@ -31,7 +35,8 @@ void Events::createEvent(){
     ui.timeEdit_main_start->setTime(query.value(2).toTime());
     ui.timeEdit_main_end->setTime(query.value(3).toTime());
     ui.textEdit_note->setPlainText(query.value(4).toString());
-    ui.comboBox_color->setCurrentIndex(ui.comboBox_color->findText(query.value(5).toString()));
+    col.setNamedColor(query.value(5).toString());
+    ui.toolButton_color->setStyleSheet(QString("background-color: %1;").arg(query.value(5).toString()));
     //full day
     if (ui.timeEdit_main_start->time().toString("H:mm") == "0:00" and
             ui.timeEdit_main_end->time().toString("H:mm") == "23:59"){
@@ -39,6 +44,11 @@ void Events::createEvent(){
         ui.timeEdit_main_start->setVisible(false);
         ui.timeEdit_main_end->setVisible(false);
         ui.label_time->setVisible(false);
+    } else {
+        ui.checkBox_full_day->setChecked(false);
+        ui.timeEdit_main_start->setVisible(true);
+        ui.timeEdit_main_end->setVisible(true);
+        ui.label_time->setVisible(true);
     }
 
     if (list.size() == 0){
@@ -80,7 +90,7 @@ void Events::saveEvent(){
                         .arg(ui.timeEdit_main_start->time().toString("hh:mm:ss"))
                         .arg(ui.timeEdit_main_end->time().toString("hh:mm:ss"))
                         .arg(ui.textEdit_note->toPlainText())
-                        .arg(ui.comboBox_color->currentText())
+                        .arg(col.name())
                         .arg(list.at(item)));
         query.exec();
         err.append(query.lastError().text());
@@ -144,4 +154,9 @@ void Events::setFullDay(bool x){
 }
 void Events::setPeriodicly(){
 
+}
+
+void Events::changeColor(){
+    col = QColorDialog::getColor(Qt::white, this);
+    ui.toolButton_color->setStyleSheet(QString("background-color: %1;").arg(col.name()));
 }
