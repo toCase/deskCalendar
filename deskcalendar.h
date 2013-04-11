@@ -13,7 +13,7 @@ class DeskCalendar : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit DeskCalendar(int h, int w, QWidget *parent = 0);
+    explicit DeskCalendar(QString _path, int h, int w, QWidget *parent = 0);
     ~DeskCalendar();
 
     QSqlDatabase db;
@@ -22,7 +22,7 @@ public:
     int cMonth;
     int cYear;
     QDate cDate; // рабочая дата
-    
+    QString appPath; //папка с программой
 private:
     Ui::DeskCalendar *ui;
 
@@ -55,6 +55,9 @@ private slots:
     /////////////
     //diagramm
     void toDia();
+    void toInfo();
+    void loadIcons();
+
 };
 
 #endif // DESKCALENDAR_H

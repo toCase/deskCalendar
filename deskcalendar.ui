@@ -30,10 +30,6 @@
   <property name="windowTitle">
    <string>DeskCalendar</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/ico/icons/icon.png</normaloff>:/ico/icons/icon.png</iconset>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0" rowspan="2" colspan="2">
@@ -79,20 +75,20 @@
             <item>
              <widget class="QToolButton" name="toolButton_prev">
               <property name="text">
-               <string>...</string>
+               <string/>
               </property>
               <property name="arrowType">
-               <enum>Qt::LeftArrow</enum>
+               <enum>Qt::NoArrow</enum>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_next">
               <property name="text">
-               <string>...</string>
+               <string/>
               </property>
               <property name="arrowType">
-               <enum>Qt::RightArrow</enum>
+               <enum>Qt::NoArrow</enum>
               </property>
              </widget>
             </item>
@@ -141,15 +137,15 @@
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
-          <property name="displayFormat">
-           <string>d</string>
-          </property>
           <property name="date">
            <date>
             <year>2000</year>
             <month>1</month>
             <day>10</day>
            </date>
+          </property>
+          <property name="displayFormat">
+           <string>d</string>
           </property>
          </widget>
         </item>
@@ -361,9 +357,24 @@
           <property name="text">
            <string/>
           </property>
-          <property name="icon">
-           <iconset resource="reso.qrc">
-            <normaloff>:/icons/icons/Chart.png</normaloff>:/icons/icons/Chart.png</iconset>
+          <property name="iconSize">
+           <size>
+            <width>17</width>
+            <height>17</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_about">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>17</width>
+            <height>17</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -440,20 +451,12 @@
           <property name="text">
            <string>add</string>
           </property>
-          <property name="icon">
-           <iconset resource="reso.qrc">
-            <normaloff>:/icons/icons/add.png</normaloff>:/icons/icons/add.png</iconset>
-          </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_close">
           <property name="text">
            <string>close</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/ico/icons/close.png</normaloff>:/ico/icons/close.png</iconset>
           </property>
          </widget>
         </item>
@@ -548,20 +551,12 @@
                <property name="text">
                 <string>save</string>
                </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/ico/icons/save.png</normaloff>:/ico/icons/save.png</iconset>
-               </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_close_event">
                <property name="text">
                 <string>close</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/ico/icons/add.png</normaloff>:/ico/icons/add.png</iconset>
                </property>
               </widget>
              </item>
@@ -574,37 +569,10 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="label_2">
-      <property name="minimumSize">
-       <size>
-        <width>25</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>25</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../debug/icons/events.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="reso.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

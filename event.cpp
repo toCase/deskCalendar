@@ -1,12 +1,14 @@
 #include "event.h"
 #include <QColorDialog>
 
-Events::Events(QList<int> _l, int _i, QDate _d, QWidget *parent):QDialog(parent){
+Events::Events(QList<int> _l, int _i, QDate _d, QString _path, QWidget *parent):QDialog(parent){
     ui.setupUi(this);
     list = _l;
     item = _i;
     dat = _d;
+    appPath = _path;
     ui.checkBox_period->hide();
+    loadIcons();
 
     createEvent();
 
@@ -95,12 +97,12 @@ void Events::saveEvent(){
         query.exec();
         err.append(query.lastError().text());
         if (err.size() == 1){
-            ui.lineEdit_status->setText("Сохранено...");
+            ui.lineEdit_status->setText("Saved...");
         } else {
             ui.lineEdit_status->setText(err);
         }
     } else {
-        ui.lineEdit_status->setText("Нет заголовка!!!");
+        ui.lineEdit_status->setText("No title!!!");
     }
 }
 
@@ -159,4 +161,23 @@ void Events::setPeriodicly(){
 void Events::changeColor(){
     col = QColorDialog::getColor(Qt::white, this);
     ui.toolButton_color->setStyleSheet(QString("background-color: %1;").arg(col.name()));
+}
+
+void Events::loadIcons(){
+    QIcon iDel(QDir::toNativeSeparators(QString("%1/icons/delete.png").arg(appPath)));
+    ui.pushButton_del->setIcon(iDel);
+    QIcon iClose(QDir::toNativeSeparators(QString("%1/icons/close_a.png").arg(appPath)));
+    ui.pushButton_close->setIcon(iClose);
+    QIcon iOk(QDir::toNativeSeparators(QString("%1/icons/ok.png").arg(appPath)));
+    ui.pushButton_save->setIcon(iOk);
+    QIcon iToFirst(QDir::toNativeSeparators(QString("%1/icons/toFirst.png").arg(appPath)));
+    ui.pushButton_toFirst->setIcon(iToFirst);
+    QIcon iToNext(QDir::toNativeSeparators(QString("%1/icons/toNext3.png").arg(appPath)));
+    ui.pushButton_toNext->setIcon(iToNext);
+    QIcon iToPrev(QDir::toNativeSeparators(QString("%1/icons/toPrev.png").arg(appPath)));
+    ui.pushButton_toPrev->setIcon(iToPrev);
+    QIcon iToLast(QDir::toNativeSeparators(QString("%1/icons/toLast.png").arg(appPath)));
+    ui.pushButton_toLast->setIcon(iToLast);
+    QIcon iWin(QDir::toNativeSeparators(QString("%1/icons/bookmark.png").arg(appPath)));
+    setWindowIcon(iWin);
 }

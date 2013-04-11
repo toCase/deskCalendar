@@ -10,13 +10,15 @@
 class viewDia:public QMainWindow{
     Q_OBJECT
 public:
-    viewDia(QString _text, QWidget *parent = 0);
+    viewDia(QString _text, QString _path, QWidget *parent = 0);
     Ui::viewer ui;
     QString text;
+    QString appPath;
 
 public slots:
     void load();
     void print();
+    void loadIcons();
 };
 
 #endif // VIEWDIA_H

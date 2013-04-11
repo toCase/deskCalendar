@@ -25,3 +25,5 @@ FORMS    += deskcalendar.ui \
 
 OTHER_FILES += iconca.rc
 
+RESOURCES +=
+

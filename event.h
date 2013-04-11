@@ -8,12 +8,13 @@
 class Events:public QDialog{
     Q_OBJECT
 public:
-    Events(QList<int>_l, int _i, QDate _d, QWidget *parent = 0);
+    Events(QList<int>_l, int _i, QDate _d, QString _path, QWidget *parent = 0);
     Ui::events_dialog ui;
     QList<int> list;
     int item;
     QDate dat;
     QColor col;
+    QString appPath;
 
 private slots:
     void createEvent();
@@ -28,8 +29,9 @@ private slots:
     ///////
     void setPeriodicly();
     void setFullDay(bool x);
-    ////test
     void changeColor();
+    // test
+    void loadIcons();
 
 
 };

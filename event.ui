@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>556</width>
-    <height>394</height>
+    <width>586</width>
+    <height>360</height>
    </rect>
   </property>
   <property name="font">
@@ -17,11 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="reso.qrc">
-    <normaloff>:/icons/icons/Bookmarks.png</normaloff>:/icons/icons/Bookmarks.png</iconset>
+   <string>Event</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
    <item row="0" column="0">
@@ -31,7 +27,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>title</string>
+          <string>Title</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -48,7 +44,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>date and time</string>
+          <string>Date and Time</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -87,26 +83,9 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
         <widget class="QCheckBox" name="checkBox_full_day">
          <property name="text">
-          <string>full day</string>
+          <string>Full day</string>
          </property>
         </widget>
        </item>
@@ -118,7 +97,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_3">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -137,7 +116,7 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>color</string>
+          <string>Color</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -184,7 +163,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_note">
        <property name="title">
-        <string>note</string>
+        <string>Note</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
@@ -225,14 +204,20 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_toFirst">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>&lt;&lt;</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset>
@@ -242,14 +227,20 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_toPrev">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>&lt;</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset>
@@ -259,14 +250,20 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_toNext">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>&gt;</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset>
@@ -276,14 +273,20 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_toLast">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>&gt;&gt;</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset>
@@ -310,7 +313,7 @@
           <string>save</string>
          </property>
          <property name="icon">
-          <iconset resource="reso.qrc">
+          <iconset>
            <normaloff>:/icons/icons/done.png</normaloff>:/icons/icons/done.png</iconset>
          </property>
          <property name="autoDefault">
@@ -330,7 +333,7 @@
           <string>close</string>
          </property>
          <property name="icon">
-          <iconset resource="reso.qrc">
+          <iconset>
            <normaloff>:/icons/icons/close.png</normaloff>:/icons/icons/close.png</iconset>
          </property>
          <property name="autoDefault">
@@ -355,8 +358,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="reso.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

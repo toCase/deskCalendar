@@ -5,9 +5,11 @@
 #include "viewDia.h"
 
 
-DeskCalendar::DeskCalendar(int h, int w, QWidget *parent) :QMainWindow(parent),
+
+DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainWindow(parent),
     ui(new Ui::DeskCalendar)  {
     ui->setupUi(this);
+
     /*
     #ifdef Q_WS_WIN
     #define WFLAGS Qt::Widget
@@ -15,8 +17,10 @@ DeskCalendar::DeskCalendar(int h, int w, QWidget *parent) :QMainWindow(parent),
     #define WFLAGS Qt::X11BypassWindowManagerHint
     #endif
     window()->setWindowFlags( Qt::Window |   WFLAGS ); //Qt::WindowStaysOnTopHint |Qt::FramelessWindowHint |a
+    */
 
-*/
+    appPath = _path;
+    loadIcons();
     //время
     dc_time();
     dc_date();
@@ -44,6 +48,7 @@ DeskCalendar::DeskCalendar(int h, int w, QWidget *parent) :QMainWindow(parent),
     connect(ui->toolButton_prev, SIGNAL(clicked()), this, SLOT(prevMonth()));
     connect(ui->toolButton_next, SIGNAL(clicked()), this, SLOT(nextMonth()));
     connect(ui->toolButton_dia, SIGNAL(clicked()), this, SLOT(toDia()));
+    connect(ui->toolButton_about, SIGNAL(clicked()), this, SLOT(toInfo()));
     updateCalendar();
 }
 
@@ -161,7 +166,7 @@ void DeskCalendar::editNotes(){
     for (int a = 0; a < ui->tableWidget_notes->rowCount(); a++){
         list << ui->tableWidget_notes->item(a, 0)->text().toInt();
     }
-    Events *ev = new Events(list, ui->tableWidget_notes->currentRow(), cDate, this);
+    Events *ev = new Events(list, ui->tableWidget_notes->currentRow(), cDate, appPath, this);
     ev->exec();
     readNotes();
     makeCalendar(cDate);
@@ -245,49 +250,17 @@ void DeskCalendar::makeCalendar(QDate ddate){
             }
             if (resDate == QDate::currentDate()){ //сегодня
                 item->setBackgroundColor("mediumorchid");
+                item->setForeground(Qt::white);
             }
             // иконки событий
-            /*
-            QSqlQuery q(QString("select cale.id, cale.status, cale.imp from cale where cale.cdate = \'%1\' ")
+            QSqlQuery q(QString("select Count(events.id) from events where events.date_s = \'%1\' ")
                         .arg(resDate.toString("yyyy-MM-dd")));
-            int b = 0;
-            int r = 0;
-            int o = 0;
-            int c = 0;
-            while (q.next()){
-                if (q.value(1).toInt() == 3){
-                    r++;
-                }
-                if (q.value(2).toInt() == 2 and q.value(1) == 1){
-                    o++;
-                }
-                if (q.value(2).toInt() == 0 and q.value(1) == 1){
-                    b++;
-                }
-                if (q.value(1).toInt() == 1){
-                    c++;
-                }
-            }
-            if (r > 0){
-                QIcon ico("icons/rcube.png");
+            q.next();
+            if (q.value(0).toInt() > 0){
+                QIcon ico(QDir::toNativeSeparators(QString("%1/icons/label.PNG").arg(appPath)));
                 item->setIcon(ico);
-            } else {
-                if (o > 0){
-                    QIcon ico("icons/ycube.png");
-                    item->setIcon(ico);
-                } else {
-                    if (b > 0){
-                        QIcon ico("icons/bcube.png");
-                        item->setIcon(ico);
-                    } else {
-                        if (c > 0){
-                            QIcon ico("icons/done.png");
-                            item->setIcon(ico);
-                        }
-                    }
-                }
             }
-            */
+            //***
             item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
             ui->calendar->setItem(0, col, item);
             dd = dd + 1;
@@ -321,50 +294,16 @@ void DeskCalendar::makeCalendar(QDate ddate){
                 }
                 if (resDate == QDate::currentDate()){ //сегодня
                     item->setBackgroundColor("mediumorchid");
+                    item->setForeground(Qt::white);
                 }
                 // иконки событий
-                /*
-                QSqlQuery q(QString("select cale.id, cale.status, cale.imp from cale where cale.cdate = \'%1\' ")
+                QSqlQuery q(QString("select Count(events.id) from events where events.date_s = \'%1\' ")
                             .arg(resDate.toString("yyyy-MM-dd")));
-
-                int b = 0;
-                int r = 0;
-                int o = 0;
-                int c = 0;
-                while (q.next()){
-                    if (q.value(1).toInt() == 3){
-                        r++;
-                    }
-                    if (q.value(2).toInt() == 2 and q.value(1) == 1){
-                        o++;
-                    }
-                    if (q.value(2).toInt() == 0 and q.value(1) == 1){
-                        b++;
-                    }
-                    if (q.value(1).toInt() == 2){
-                        c++;
-                    }
+                q.next();
+                if (q.value(0).toInt() > 0){
+                    item->setForeground(Qt::blue);
+                    item->setBackgroundColor(Qt::green);
                 }
-                if (r > 0){
-                    QIcon ico("icons/rcube.png");
-                    item->setIcon(ico);
-                } else {
-                    if (o > 0){
-                        QIcon ico("icons/ycube.png");
-                        item->setIcon(ico);
-                    } else {
-                        if (b > 0){
-                            QIcon ico("icons/bcube.png");
-                            item->setIcon(ico);
-                        } else {
-                            if (c > 0){
-                                QIcon ico("icons/done.png");
-                                item->setIcon(ico);
-                            }
-                        }
-                    }
-                }
-                */
                 //
                 dd = dd + 1;
             }
@@ -475,6 +414,45 @@ void DeskCalendar::toDia(){
     t.append(" } "
              "window.addEventListener(\"load\", drawDia, true); "
              "</script></body></html>");
-    viewDia *vd = new viewDia(t, this);
+    viewDia *vd = new viewDia(t, appPath, this);
     vd->show();
+}
+
+void DeskCalendar::loadIcons(){
+    QIcon iPrev(QDir::toNativeSeparators(QString("%1/icons/toPrev.png").arg(appPath)));
+    ui->toolButton_prev->setIcon(iPrev);
+    QIcon iNext(QDir::toNativeSeparators(QString("%1/icons/toNext3.png").arg(appPath)));
+    ui->toolButton_next->setIcon(iNext);
+    QIcon iDia(QDir::toNativeSeparators(QString("%1/icons/stat.png").arg(appPath)));
+    ui->toolButton_dia->setIcon(iDia);
+    QIcon iAdd(QDir::toNativeSeparators(QString("%1/icons/add.png").arg(appPath)));
+    ui->pushButton_add->setIcon(iAdd);
+    QIcon iClose(QDir::toNativeSeparators(QString("%1/icons/close.png").arg(appPath)));
+    ui->pushButton_close->setIcon(iClose);
+    ui->pushButton_close_event->setIcon(iClose);
+    QIcon iSave(QDir::toNativeSeparators(QString("%1/icons/done.png").arg(appPath)));
+    ui->pushButton_save->setIcon(iSave);
+    QIcon iWin(QDir::toNativeSeparators(QString("%1/icons/cale.png").arg(appPath)));
+    setWindowIcon(iWin);
+    QIcon iInfo(QDir::toNativeSeparators(QString("%1/icons/info.png").arg(appPath)));
+    ui->toolButton_about->setIcon(iInfo);
+}
+
+void DeskCalendar::toInfo(){
+    //QIcon iInfo(QDir::toNativeSeparators(QString("%1/icons/info.png").arg(appPath)));
+    QMessageBox messa;
+    messa.setIcon(QMessageBox::Information);
+    messa.setText("<p align=center><b>DeskCalendar 0.2beta</b><br>april 2013<br>"
+                  "Ev Shevchenko<br>Skyrim78@yandex.ru<br> "
+                  "Icons from www.pixelmixer.com </p>");
+    QPushButton *buttAbout = messa.addButton("About Qt", QMessageBox::ActionRole);
+    QPushButton *buttClose = messa.addButton(QMessageBox::Close);
+    messa.exec();
+    if (messa.clickedButton() == buttClose){
+           messa.close();
+    } else if (messa.clickedButton() == buttAbout){
+        QMessageBox messaA;
+        messaA.aboutQt(this, "About Qt");
+        messaA.show();
+    }
 }

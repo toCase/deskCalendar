@@ -7,9 +7,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf-8"));
-    DeskCalendar *w = new DeskCalendar(a.desktop()->height(), a.desktop()->width());
+    DeskCalendar *w = new DeskCalendar(a.applicationDirPath(), a.desktop()->height(), a.desktop()->width());
 
-    /*
+/*
     QString strCSS("QMainWindow {border: 3px solid rgb(0, 0, 250); "
                        "border-radius: 12px; "
                        "padding: 2px 4px; "
