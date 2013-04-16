@@ -25,10 +25,26 @@ Events::Events(QList<int> _l, int _i, QDate _d, QString _path, QWidget *parent):
     connect(ui.checkBox_full_day, SIGNAL(clicked(bool)), this, SLOT(setFullDay(bool)));
 
     connect(ui.toolButton_color, SIGNAL(clicked()), this, SLOT(changeColor()));
+
+    //connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.spinBox_mes, SLOT(setEnabled(bool)));
+    //connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.comboBox_mes, SLOT(setEnabled(bool)));
+    connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.comboBox_rem, SLOT(setEnabled(bool)));
+    connect(ui.comboBox_rem, SIGNAL(currentIndexChanged(int)), this, SLOT(setRemindDateTime(int)));
 }
 
 void Events::createEvent(){
-    QSqlQuery query(QString("select events.name, events.date_s, events.time_s, events.time_e, events.note, events.color "
+    //
+
+    QDateTime dm(QDateTime::fromString("12.04.2013 15:20", "dd.MM.yyyy hh:mm").toUTC());
+    qDebug() << dm.toString("dd.MM.yyyy hh:mm");
+    qint64 ms = dm.toMSecsSinceEpoch() - (10 * 60 * 1000);
+    QDateTime dt(QDateTime::fromMSecsSinceEpoch(ms));
+    qDebug() << dt.date().toString("dd.MM.yyyy") << " -- "<<dt.time().toString("hh:mm") << " -- " << ms;
+
+    //
+
+    QSqlQuery query(QString("select events.name, events.date_s, events.time_s, events.time_e, events.note, events.color, "
+                            "events.rem_date, events.rem_time "
                              "from events "
                              "where events.id = %1").arg(list.at(item)));
     query.next();
@@ -108,7 +124,7 @@ void Events::saveEvent(){
 
 void Events::deleteEvent(){
     QMessageBox messa;
-    messa.setText("Удалить?");
+    messa.setText("Delete?");
     QPushButton *yes = messa.addButton(QMessageBox::Yes);
     QPushButton *no = messa.addButton(QMessageBox::No);
     messa.exec();
@@ -180,4 +196,36 @@ void Events::loadIcons(){
     ui.pushButton_toLast->setIcon(iToLast);
     QIcon iWin(QDir::toNativeSeparators(QString("%1/icons/bookmark.png").arg(appPath)));
     setWindowIcon(iWin);
+}
+
+void Events::setRemindDateTime(int c){
+    int m = 0;
+    if (c == 0){
+        ui.dateEdit_rem->setEnabled(false);
+        ui.timeEdit_rem->setEnabled(false);
+    } else if (c > 0 and c < 5) {
+        if (c == 1){
+            m = 15;
+        } else if (c == 2){
+            m = 30;
+        } else if (c == 3){
+            m = 60;
+        } else if (c == 4){
+            m = 180;
+        }
+        QDateTime dm;
+        dm.setDate(ui.dateEdit_main_start->date());
+        dm.setTime(ui.timeEdit_main_start->time());
+        qint64 ms = dm.toUTC().toMSecsSinceEpoch() - (m * 60 * 1000);
+        QDateTime dt(QDateTime::fromMSecsSinceEpoch(ms));
+        ui.dateEdit_rem->setDate(dt.date());
+        ui.timeEdit_rem->setTime(dt.time());
+        ui.dateEdit_rem->setEnabled(true);
+        ui.timeEdit_rem->setEnabled(true);
+    } else if (c == 5){
+        ui.dateEdit_rem->setDate(ui.dateEdit_main_start->date());
+        ui.timeEdit_rem->setTime(ui.timeEdit_main_start->time());
+        ui.dateEdit_rem->setEnabled(true);
+        ui.timeEdit_rem->setEnabled(true);
+    }
 }

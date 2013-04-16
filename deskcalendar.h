@@ -57,6 +57,9 @@ private slots:
     void toDia();
     void toInfo();
     void loadIcons();
+    ////////
+    //test
+    void testDB();
 
 };
 

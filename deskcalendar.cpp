@@ -10,6 +10,7 @@ DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainW
     ui(new Ui::DeskCalendar)  {
     ui->setupUi(this);
 
+
     /*
     #ifdef Q_WS_WIN
     #define WFLAGS Qt::Widget
@@ -26,6 +27,7 @@ DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainW
     dc_date();
 
     connectDB();
+    testDB();
     ui->groupBox_notes->hide();
 
 
@@ -189,6 +191,7 @@ void DeskCalendar::saveNotes(){
     }
     //ui->pushButton_detail->setEnabled(true);
     readNotes();
+    makeCalendar(cDate);
 }
 
 void DeskCalendar::readNotes(){
@@ -257,8 +260,8 @@ void DeskCalendar::makeCalendar(QDate ddate){
                         .arg(resDate.toString("yyyy-MM-dd")));
             q.next();
             if (q.value(0).toInt() > 0){
-                QIcon ico(QDir::toNativeSeparators(QString("%1/icons/label.PNG").arg(appPath)));
-                item->setIcon(ico);
+                item->setForeground(Qt::blue);
+                item->setBackgroundColor(Qt::green);
             }
             //***
             item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -454,5 +457,19 @@ void DeskCalendar::toInfo(){
         QMessageBox messaA;
         messaA.aboutQt(this, "About Qt");
         messaA.show();
+    }
+}
+
+void DeskCalendar::testDB(){
+    QSqlQuery query_a("pragma MAIN.table_info (events)");
+    QStringList eventsColumn;
+    while (query_a.next()){
+        eventsColumn << query_a.value(1).toString();
+    }
+    if (!eventsColumn.contains("rem_date")){
+        QSqlQuery query_b("ALTER TABLE main.events ADD COLUMN 'rem_date' date");
+        query_b.exec();
+        QSqlQuery query_c("ALTER TABLE main.events ADD COLUMN 'rem_time' time");
+        query_c.exec();
     }
 }

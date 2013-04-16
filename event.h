@@ -30,8 +30,9 @@ private slots:
     void setPeriodicly();
     void setFullDay(bool x);
     void changeColor();
-    // test
     void loadIcons();
+    //////
+    void setRemindDateTime(int c);
 
 
 };
