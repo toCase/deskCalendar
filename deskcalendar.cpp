@@ -19,6 +19,8 @@ DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainW
     #endif
     window()->setWindowFlags( Qt::Window |   WFLAGS ); //Qt::WindowStaysOnTopHint |Qt::FramelessWindowHint |a
     */
+    connectDB();
+    testDB();
 
     appPath = _path;
     loadIcons();
@@ -26,8 +28,7 @@ DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainW
     dc_time();
     dc_date();
 
-    connectDB();
-    testDB();
+
     ui->groupBox_notes->hide();
 
 
@@ -70,6 +71,27 @@ void DeskCalendar::dc_time(){
 
 void DeskCalendar::setCurrentTime(){
     ui->clock->setTime(QTime::currentTime());
+
+    QSqlQuery remQuery(QString("select events.id, events.name, events.date_s, events.time_s, events.color "
+                               "from events where events.rem_date = \'%1\' and events.rem_time = \'%2\' ")
+                       .arg(cDate.toString("yyyy-MM-dd"))
+                       .arg(QTime::currentTime().toString("hh:mm:ss")));
+    remQuery.next();
+
+    if (remQuery.isValid()){
+        QString remind(QString("<h3 align=center>%1<br>%2</h3><p><b>%3</b></p>")
+                       .arg(remQuery.value(2).toString())
+                       .arg(remQuery.value(3).toString())
+                       .arg(remQuery.value(1).toString()));
+        QMessageBox messa;
+        messa.setWindowTitle(tr("Reminder"));
+        messa.setWindowFlags(Qt::WindowStaysOnTopHint);
+        messa.setModal(true);
+        messa.setText(remind);
+        messa.exec();
+    }
+
+
 }
 ////////////////////
 // дата
@@ -148,7 +170,6 @@ void DeskCalendar::connectDB(){
     db =  QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("dCalendar.db3");
     db.open();
-    qDebug() << db.isOpen();
 }
 ///////////////////
 // заметки

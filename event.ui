@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>401</height>
+    <width>595</width>
+    <height>432</height>
    </rect>
   </property>
   <property name="font">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Event</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -161,69 +161,76 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <widget class="QCheckBox" name="checkBox_mes">
-         <property name="text">
+        <widget class="QGroupBox" name="groupBox_rem">
+         <property name="title">
           <string>Reminder</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBox_rem">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>for 15 min</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>for 30 min</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>for 1 hour</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>for 3 hour</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>manualy</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDateEdit" name="dateEdit_rem">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="calendarPopup">
+         <property name="checkable">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTimeEdit" name="timeEdit_rem">
-         <property name="enabled">
-          <bool>false</bool>
+         <property name="checked">
+          <bool>true</bool>
          </property>
-         <property name="displayFormat">
-          <string>H:mm</string>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QComboBox" name="comboBox_rem">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>for 15 min</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>for 30 min</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>for 1 hour</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>for 3 hour</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>manualy</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="dateEdit_rem">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="calendarPopup">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="timeEdit_rem">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="displayFormat">
+               <string>H:mm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

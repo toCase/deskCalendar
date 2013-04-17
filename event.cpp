@@ -25,24 +25,10 @@ Events::Events(QList<int> _l, int _i, QDate _d, QString _path, QWidget *parent):
     connect(ui.checkBox_full_day, SIGNAL(clicked(bool)), this, SLOT(setFullDay(bool)));
 
     connect(ui.toolButton_color, SIGNAL(clicked()), this, SLOT(changeColor()));
-
-    //connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.spinBox_mes, SLOT(setEnabled(bool)));
-    //connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.comboBox_mes, SLOT(setEnabled(bool)));
-    connect(ui.checkBox_mes, SIGNAL(clicked(bool)), ui.comboBox_rem, SLOT(setEnabled(bool)));
     connect(ui.comboBox_rem, SIGNAL(currentIndexChanged(int)), this, SLOT(setRemindDateTime(int)));
 }
 
 void Events::createEvent(){
-    //
-
-    QDateTime dm(QDateTime::fromString("12.04.2013 15:20", "dd.MM.yyyy hh:mm").toUTC());
-    qDebug() << dm.toString("dd.MM.yyyy hh:mm");
-    qint64 ms = dm.toMSecsSinceEpoch() - (10 * 60 * 1000);
-    QDateTime dt(QDateTime::fromMSecsSinceEpoch(ms));
-    qDebug() << dt.date().toString("dd.MM.yyyy") << " -- "<<dt.time().toString("hh:mm") << " -- " << ms;
-
-    //
-
     QSqlQuery query(QString("select events.name, events.date_s, events.time_s, events.time_e, events.note, events.color, "
                             "events.rem_date, events.rem_time "
                              "from events "
@@ -55,6 +41,16 @@ void Events::createEvent(){
     ui.textEdit_note->setPlainText(query.value(4).toString());
     col.setNamedColor(query.value(5).toString());
     ui.toolButton_color->setStyleSheet(QString("background-color: %1;").arg(query.value(5).toString()));
+    if (!query.value(6).isNull()){
+        ui.groupBox_rem->setChecked(true);
+        ui.comboBox_rem->setCurrentIndex(4);
+        ui.dateEdit_rem->setDate(query.value(6).toDate());
+        ui.timeEdit_rem->setTime(query.value(7).toTime());
+    } else {
+        ui.groupBox_rem->setChecked(false);
+        ui.comboBox_rem->setCurrentIndex(4);
+        setRemindDateTime(4);
+    }
     //full day
     if (ui.timeEdit_main_start->time().toString("H:mm") == "0:00" and
             ui.timeEdit_main_end->time().toString("H:mm") == "23:59"){
@@ -101,15 +97,22 @@ void Events::createEvent(){
 void Events::saveEvent(){
     QString err;
     if (!ui.lineEdit_name->text().isEmpty()){
-        QSqlQuery query(QString("update events set name = \'%1\', date_s = \'%2\', time_s = \'%3\', time_e = \'%4\', "
-                                "note = \'%5\', color = \'%6\' where events.id = \'%7\' ")
-                        .arg(ui.lineEdit_name->text())
-                        .arg(ui.dateEdit_main_start->date().toString("yyyy-MM-dd"))
-                        .arg(ui.timeEdit_main_start->time().toString("hh:mm:ss"))
-                        .arg(ui.timeEdit_main_end->time().toString("hh:mm:ss"))
-                        .arg(ui.textEdit_note->toPlainText())
-                        .arg(col.name())
-                        .arg(list.at(item)));
+        QString qtext(QString("update events set name = \"%1\", date_s = \'%2\', time_s = \'%3\', time_e = \'%4\', "
+                              "note = \'%5\', color = \'%6\'")
+                      .arg(ui.lineEdit_name->text())
+                      .arg(ui.dateEdit_main_start->date().toString("yyyy-MM-dd"))
+                      .arg(ui.timeEdit_main_start->time().toString("hh:mm:ss"))
+                      .arg(ui.timeEdit_main_end->time().toString("hh:mm:ss"))
+                      .arg(ui.textEdit_note->toPlainText())
+                      .arg(col.name()));
+        if (ui.groupBox_rem->isChecked()){
+            qtext.append(QString(", rem_date = \'%1\', rem_time = \'%2:00\' ")
+                         .arg(ui.dateEdit_rem->date().toString("yyyy-MM-dd"))
+                         .arg(ui.timeEdit_rem->time().toString("hh:mm")));
+        }
+        qtext.append(QString(" where events.id = \'%1\'")
+                     .arg(list.at(item)));
+        QSqlQuery query(qtext);
         query.exec();
         err.append(query.lastError().text());
         if (err.size() == 1){
@@ -200,17 +203,14 @@ void Events::loadIcons(){
 
 void Events::setRemindDateTime(int c){
     int m = 0;
-    if (c == 0){
-        ui.dateEdit_rem->setEnabled(false);
-        ui.timeEdit_rem->setEnabled(false);
-    } else if (c > 0 and c < 5) {
-        if (c == 1){
+    if (c < 4) {
+        if (c == 0){
             m = 15;
-        } else if (c == 2){
+        } else if (c == 1){
             m = 30;
-        } else if (c == 3){
+        } else if (c == 2){
             m = 60;
-        } else if (c == 4){
+        } else if (c == 3){
             m = 180;
         }
         QDateTime dm;
@@ -220,12 +220,8 @@ void Events::setRemindDateTime(int c){
         QDateTime dt(QDateTime::fromMSecsSinceEpoch(ms));
         ui.dateEdit_rem->setDate(dt.date());
         ui.timeEdit_rem->setTime(dt.time());
-        ui.dateEdit_rem->setEnabled(true);
-        ui.timeEdit_rem->setEnabled(true);
-    } else if (c == 5){
+    } else if (c == 4){
         ui.dateEdit_rem->setDate(ui.dateEdit_main_start->date());
         ui.timeEdit_rem->setTime(ui.timeEdit_main_start->time());
-        ui.dateEdit_rem->setEnabled(true);
-        ui.timeEdit_rem->setEnabled(true);
     }
 }
