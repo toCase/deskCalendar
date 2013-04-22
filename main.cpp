@@ -6,6 +6,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setQuitOnLastWindowClosed(false);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf-8"));
     DeskCalendar *w = new DeskCalendar(a.applicationDirPath(), a.desktop()->height(), a.desktop()->width());
 

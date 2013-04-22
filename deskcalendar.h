@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QtSql/QtSql>
+////
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 namespace Ui {
 class DeskCalendar;
@@ -22,9 +25,14 @@ public:
     int cMonth;
     int cYear;
     QDate cDate; // рабочая дата
-    QString appPath; //папка с программой
+    QString appPath; //папка с программой    
+
+protected:
+    virtual void closeEvent(QCloseEvent *);
 private:
     Ui::DeskCalendar *ui;
+    QSystemTrayIcon *sysTray;
+    QMenu *trayMenu;
 
 private slots:
     // время
@@ -60,7 +68,11 @@ private slots:
     ////////
     //test
     void testDB();
-
+    ///////
+    //tray
+    void createTrayMenu();
+    void showTrayReminder(QString t);
+    void slotShowHide();
 };
 
 #endif // DESKCALENDAR_H

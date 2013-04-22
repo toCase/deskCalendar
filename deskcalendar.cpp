@@ -22,8 +22,10 @@ DeskCalendar::DeskCalendar(QString _path, int h, int w, QWidget *parent) :QMainW
     connectDB();
     testDB();
 
+
     appPath = _path;
     loadIcons();
+    createTrayMenu();
     //время
     dc_time();
     dc_date();
@@ -79,16 +81,19 @@ void DeskCalendar::setCurrentTime(){
     remQuery.next();
 
     if (remQuery.isValid()){
-        QString remind(QString("<h3 align=center>%1<br>%2</h3><p><b>%3</b></p>")
+        QString remind(QString(" %1 - %2 \n %3")
                        .arg(remQuery.value(2).toString())
                        .arg(remQuery.value(3).toString())
                        .arg(remQuery.value(1).toString()));
+        showTrayReminder(remind);
+        /*
         QMessageBox messa;
         messa.setWindowTitle(tr("Reminder"));
         messa.setWindowFlags(Qt::WindowStaysOnTopHint);
         messa.setModal(true);
         messa.setText(remind);
         messa.exec();
+        */
     }
 
 
@@ -451,7 +456,7 @@ void DeskCalendar::loadIcons(){
     ui->toolButton_dia->setIcon(iDia);
     QIcon iAdd(QDir::toNativeSeparators(QString("%1/icons/add.png").arg(appPath)));
     ui->pushButton_add->setIcon(iAdd);
-    QIcon iClose(QDir::toNativeSeparators(QString("%1/icons/close.png").arg(appPath)));
+    QIcon iClose(QDir::toNativeSeparators(QString("%1/icons/toDown.png").arg(appPath)));
     ui->pushButton_close->setIcon(iClose);
     ui->pushButton_close_event->setIcon(iClose);
     QIcon iSave(QDir::toNativeSeparators(QString("%1/icons/done.png").arg(appPath)));
@@ -493,4 +498,34 @@ void DeskCalendar::testDB(){
         QSqlQuery query_c("ALTER TABLE main.events ADD COLUMN 'rem_time' time");
         query_c.exec();
     }
+}
+
+void DeskCalendar::createTrayMenu(){
+    sysTray = new QSystemTrayIcon(this);
+    trayMenu = new QMenu(this);
+
+    QIcon iTH(QDir::toNativeSeparators(QString("%1/icons/cale.png").arg(appPath)));
+    QIcon iQuit(QDir::toNativeSeparators(QString("%1/icons/close.png").arg(appPath)));
+    trayMenu->addAction(iTH, tr("Show/Hide"), this, SLOT(slotShowHide()));
+    trayMenu->addAction(iQuit, tr("Quit"), qApp, SLOT(quit()));
+
+    sysTray->setContextMenu(trayMenu);
+    QIcon iTray(QDir::toNativeSeparators(QString("%1/icons/cale.png").arg(appPath)));
+    sysTray->setIcon(iTray);
+    sysTray->setToolTip("Desk Calendar");
+    sysTray->show();
+}
+
+void DeskCalendar::slotShowHide(){
+    setVisible(!isVisible());
+}
+
+void DeskCalendar::closeEvent(QCloseEvent *){
+    if (sysTray->isVisible()){
+        hide();
+    }
+}
+
+void DeskCalendar::showTrayReminder(QString t){
+    sysTray->showMessage(tr("Desk Calendar Reminder"), t, QSystemTrayIcon::NoIcon, 30000);
 }
